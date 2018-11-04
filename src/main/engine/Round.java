@@ -1,15 +1,20 @@
 package main.engine;
 
+import main.card.Card;
 import main.card.Deck;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 class Round {
   Game game;
   private final Deck deck = new Deck();
   private Players players = new Players();
   private final Integer dealerIndex = 0; // Maybe get from game in constructor
+  private List<Card> board = new ArrayList<>();
 
   Round(Game game) {
     this.game = game;
@@ -33,9 +38,9 @@ class Round {
   }
 
   private void doBlind() {
-    // Move to game ? No because it updates player.currentBet which is relevant only in a Round context
-    players.setCurrentIndex(dealerIndex);
-    players.getNext();
+    // Move to game ? No because it updates player.currentBet which is relevant only in a Round
+    // context
+    players.setCurrentIndex(dealerIndex + 1);
     players.getNext().bet(game.getSmallBlind());
     players.getNext().bet(game.getBigBlind());
   }
@@ -58,6 +63,15 @@ class Round {
     }
   }
 
+  private void playFlop() {
+    board.addAll(deck.getSomeCard(3));
+    players.setCurrentIndex(dealerIndex + 1);
+    for (Player player :
+        players.stream().filter(Player::getIsPlaying).collect(Collectors.toList())) {
+      player.playFlop();
+    }
+  }
+
   Players getPlayers() {
     return players;
   }
@@ -65,7 +79,7 @@ class Round {
   void play() {
     init();
     playPreFlop();
+    playFlop();
     System.out.println(players);
-    // Bug : Fold; Raise 500; Fold; Raise 450 ? Check
   }
 }
