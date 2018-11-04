@@ -58,6 +58,9 @@ class Round {
     }
   }
 
+  Players getPlayers() {
+    return players;
+  }
 
   void play() {
     init();
