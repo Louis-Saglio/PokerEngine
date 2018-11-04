@@ -18,7 +18,7 @@ class Players extends ArrayList<Player> {
     // What if no player is playing ? Maybe it is impossible.
     Player player = getNext();
     if (!player.getIsPlaying()) {
-      getNextPlaying();
+      return getNextPlaying();
     }
     return player;
   }
