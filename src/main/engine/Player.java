@@ -1,6 +1,6 @@
-package engine;
+package main.engine;
 
-import card.Card;
+import main.card.Card;
 
 import java.util.InputMismatchException;
 import java.util.List;

@@ -1,6 +1,6 @@
-package engine;
+package main.engine;
 
-import card.Deck;
+import main.card.Deck;
 
 import java.util.Comparator;
 import java.util.Optional;
