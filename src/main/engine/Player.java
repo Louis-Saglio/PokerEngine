@@ -27,9 +27,14 @@ public class Player {
   }
 
   private Integer chooseAction() {
-    System.out.print(gamer);
-    System.out.println("1 : Fold\n2 : Check/Call\n3 : Raise");
-    return new Scanner(System.in).nextInt();
+    Scanner scanner = new Scanner(System.in);
+    int nextInt = -1;
+    while (nextInt != 1 && nextInt != 2 && nextInt != 3) {
+      System.out.print(gamer);
+      System.out.println("1 : Fold\n2 : Check/Call\n3 : Raise");
+      nextInt = scanner.nextInt();
+    }
+    return nextInt;
   }
 
   private void fold() {
@@ -62,7 +67,11 @@ public class Player {
   }
 
   void playPreFlop() {
-    switch (chooseAction()) {
+    playPreFlop(chooseAction());
+  }
+
+  void playPreFlop(Integer choice) {
+    switch (choice) {
       case 1:
         fold();
         break;
@@ -73,7 +82,7 @@ public class Player {
         raise(getRaiseAmount());
         break;
       default:
-        playPreFlop();
+        throw new RuntimeException("Invalid pre flop action");
     }
   }
 
