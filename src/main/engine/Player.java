@@ -30,7 +30,8 @@ public class Player {
     Scanner scanner = new Scanner(System.in);
     int nextInt = -1;
     while (nextInt != 1 && nextInt != 2 && nextInt != 3) {
-      System.out.print(gamer);
+      System.out.println(gamer);
+      System.out.println("Biggest bet : " + round.getBiggestBet() + " own bet : " + currentBet);
       System.out.println("1 : Fold\n2 : Check/Call\n3 : Raise");
       nextInt = scanner.nextInt();
     }
