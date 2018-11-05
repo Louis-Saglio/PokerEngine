@@ -7,7 +7,8 @@ import java.util.Stack;
 
 public class Deck {
 
-  private Stack<Card> cards;
+  private final Stack<Card> cards;
+  // Maybe should extends Stack
 
   public Deck() {
     this.cards = new Stack<>();

@@ -3,10 +3,10 @@ package main.engine;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+class Game {
 
-  private Integer tableStake;
-  private List<Gamer> gamers = new ArrayList<>();
+  private final Integer tableStake;
+  private final List<Gamer> gamers = new ArrayList<>();
 
   Game(Integer startingChip, List<String> users) {
     this.tableStake = startingChip;
@@ -19,7 +19,7 @@ public class Game {
     this.gamers.add(new Gamer(user, money));
   }
 
-  Integer getTableStake() {
+  private Integer getTableStake() {
     return tableStake;
   }
 

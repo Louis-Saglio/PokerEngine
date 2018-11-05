@@ -2,7 +2,6 @@ package main.engine;
 
 import main.card.Card;
 import main.card.Deck;
-import main.card.combinations.ComparisonResult;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 class Hand {
-  Game game;
+  final Game game;
   private final Deck deck = new Deck();
-  private Players players = new Players();
+  private final Players players = new Players();
   private final Integer dealerIndex = 0; // Maybe get from game in constructor
-  private List<Card> board = new ArrayList<>();
+  private final List<Card> board = new ArrayList<>();
 
   Hand(Game game) {
     this.game = game;
@@ -41,6 +40,11 @@ class Hand {
     }
   }
 
+  List<Card> getBoard() {
+    // For test
+    return board;
+  }
+
   private void doBlind() {
     // Move to game ? No because it updates player.currentBet which is relevant only in a Hand
     // context
@@ -57,6 +61,7 @@ class Hand {
   }
 
   private void playPreFlop() {
+    System.out.println("Hand.playPreFlop");
     players.setCurrentIndex(dealerIndex + 3);
     // Everybody play at least once
     for (int i = 0; i < players.size(); i++) {
@@ -68,6 +73,7 @@ class Hand {
   }
 
   private void playFlop() {
+    System.out.println("Hand.playFlop");
     board.addAll(deck.getSomeCard(3));
     players.setCurrentIndex(dealerIndex + 1);
     for (int i = 0; i < players.stream().filter(Player::getIsPlaying).count(); i++) {
@@ -79,6 +85,7 @@ class Hand {
   }
 
   private void playTurn() {
+    System.out.println("Hand.playTurn");
     board.addAll(deck.getSomeCard(1));
     players.setCurrentIndex(dealerIndex + 1);
     for (int i = 0; i < players.stream().filter(Player::getIsPlaying).count(); i++) {
@@ -90,6 +97,7 @@ class Hand {
   }
 
   private void playRiver() {
+    System.out.println("Hand.playRiver");
     board.addAll(deck.getSomeCard(1));
     players.setCurrentIndex(dealerIndex + 1);
     for (int i = 0; i < players.stream().filter(Player::getIsPlaying).count(); i++) {
@@ -100,17 +108,13 @@ class Hand {
     }
   }
 
+  Player getWinner() {
+    return players.stream().max(Player::comparesCards).orElse(null);
+  }
+
   private void showDown() {
-    Player player = players.stream().max((player1, player2) -> {
-      ComparisonResult comparisonResult = player1.getBestCombination().compares(player2.getBestCombination());
-      if (comparisonResult == ComparisonResult.SUPERIOR) {
-        return 1;
-      } else if (comparisonResult == ComparisonResult.INFERIOR) {
-        return -1;
-      } else {
-        return 0;
-      }
-    }).get();//.win;
+    System.out.println("Hand.showDown");
+    Player player = getWinner();//.win;
     System.out.println(player);
   }
 
@@ -120,6 +124,7 @@ class Hand {
     playFlop();
     playTurn();
     playRiver();
+    showDown();
     System.out.println(players);
   }
 }

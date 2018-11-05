@@ -2,8 +2,8 @@ package main.card;
 
 public class Card {
 
-  private Rank rank;
-  private Suit suit;
+  private final Rank rank;
+  private final Suit suit;
 
   public Card(Suit suit, Rank rank) {
     this.rank = rank;

@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
-public class Player {
+class Player {
   private Boolean isPlaying = true;
   private Integer currentBet = 0;
   private final Hand hand; // may cause spaghetti code
