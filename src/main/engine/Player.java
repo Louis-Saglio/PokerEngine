@@ -131,6 +131,27 @@ public class Player {
     playTurn(chooseAction());
   }
 
+  Integer getRiverRaiseAmount() {
+    return round.game.getBigBlind();
+  }
+
+  void playRiver(Integer choice) {
+    switch (choice) {
+      case 1:
+        fold();
+      case 2:
+        call();
+      case 3:
+        raise(getRiverRaiseAmount());
+      default:
+        throw new RuntimeException("Invalid river action");
+    }
+  }
+
+  void playRiver() {
+    playRiver(chooseAction());
+  }
+
   Integer getCurrentBet() {
     return currentBet;
   }

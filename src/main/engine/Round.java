@@ -84,6 +84,17 @@ class Round {
     }
   }
 
+  private void playRiver() {
+    board.addAll(deck.getSomeCard(1));
+    players.setCurrentIndex(dealerIndex + 1);
+    for (int i = 0; i < players.stream().filter(Player::getIsPlaying).count(); i++) {
+      players.getNextPlaying().playRiver();
+    }
+    while (!players.stream().allMatch(Player::hasEndedTurn)) {
+      players.getNextPlaying().playRiver();
+    }
+  }
+
   Players getPlayers() {
     return players;
   }
@@ -93,6 +104,7 @@ class Round {
     playPreFlop();
     playFlop();
     playTurn();
+    playRiver();
     System.out.println(players);
   }
 }
