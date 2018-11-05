@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 class Round {
   Game game;
@@ -58,7 +57,7 @@ class Round {
     for (int i = 0; i < players.size(); i++) {
       players.getNext().playPreFlop();
     }
-    while (!players.stream().allMatch(Player::hasEndedPreFlop)) {
+    while (!players.stream().allMatch(Player::hasEndedTurn)) {
       players.getNextPlaying().playPreFlop();
     }
   }
@@ -66,9 +65,11 @@ class Round {
   private void playFlop() {
     board.addAll(deck.getSomeCard(3));
     players.setCurrentIndex(dealerIndex + 1);
-    for (Player player :
-        players.stream().filter(Player::getIsPlaying).collect(Collectors.toList())) {
-      player.playFlop();
+    for (int i = 0; i < players.stream().filter(Player::getIsPlaying).count(); i++) {
+      players.getNextPlaying().playFlop();
+    }
+    while (!players.stream().allMatch(Player::hasEndedTurn)) {
+      players.getNextPlaying().playFlop();
     }
   }
 

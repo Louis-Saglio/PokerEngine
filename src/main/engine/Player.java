@@ -51,6 +51,7 @@ public class Player {
   }
 
   private Integer getRaiseAmount(Integer min) {
+    // Check this in game ? In action system
     int raiseAmount = 0;
     while (raiseAmount < min || raiseAmount + currentBet < round.getBiggestBet()) {  // put * 2 in a constant
       System.out.println("Choose a raise amount");
@@ -67,7 +68,7 @@ public class Player {
     return getRaiseAmount(round.game.getBigBlind() * 2);
   }
 
-  Boolean hasEndedPreFlop() {
+  Boolean hasEndedTurn() {
     return !isPlaying || currentBet >= round.getBiggestBet();
   }
 
@@ -75,13 +76,10 @@ public class Player {
     switch (choice) {
       case 1:
         fold();
-        break;
       case 2:
-        this.call();
-        break;
+        call();
       case 3:
         raise(getPreFlopRaiseAmount());
-        break;
       default:
         throw new RuntimeException("Invalid pre flop action");
     }
@@ -99,13 +97,10 @@ public class Player {
     switch (choice) {
       case 1:
         fold();
-        break;
       case 2:
-        this.call();
-        break;
+        call();
       case 3:
         raise(getFlopRaiseAmount());
-        break;
       default:
         throw new RuntimeException("Invalid flop action");
     }
