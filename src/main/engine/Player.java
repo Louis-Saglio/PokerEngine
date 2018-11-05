@@ -1,6 +1,7 @@
 package main.engine;
 
 import main.card.Card;
+import main.card.combinations.Combination;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -9,21 +10,21 @@ import java.util.Scanner;
 public class Player {
   private Boolean isPlaying = true;
   private Integer currentBet = 0;
-  private List<Card> cards;
+  private final Hand hand; // may cause spaghetti code
   private final Gamer gamer;
-  private final Round round; // may cause spaghetti code
+  private List<Card> downCards;
 
-  Player(Gamer gamer, Round round) {
+  Player(Gamer gamer, Hand hand) {
     this.gamer = gamer;
-    this.round = round;
+    this.hand = hand;
   }
 
   void bet(Integer money) {
     currentBet += money;
   }
 
-  void setCards(List<Card> cards) {
-    this.cards = cards;
+  void setDownCards(List<Card> downCards) {
+    this.downCards = downCards;
   }
 
   private Integer chooseAction() {
@@ -31,7 +32,7 @@ public class Player {
     int nextInt = -1;
     while (nextInt != 1 && nextInt != 2 && nextInt != 3) {
       System.out.println(gamer);
-      System.out.println("Biggest bet : " + round.getBiggestBet() + " own bet : " + currentBet);
+      System.out.println("Biggest bet : " + hand.getBiggestBet() + " own bet : " + currentBet);
       System.out.println("1 : Fold\n2 : Check/Call\n3 : Raise");
       nextInt = scanner.nextInt();
     }
@@ -43,7 +44,7 @@ public class Player {
   }
 
   private void call() {
-    bet(round.getBiggestBet() - currentBet);
+    bet(hand.getBiggestBet() - currentBet);
   }
 
   private void raise(Integer raiseAmount) {
@@ -53,7 +54,7 @@ public class Player {
   private Integer getRaiseAmount(Integer min) {
     // Check this in game ? In action system
     int raiseAmount = 0;
-    while (raiseAmount < min || raiseAmount + currentBet < round.getBiggestBet()) {  // put * 2 in a constant
+    while (raiseAmount < min || raiseAmount + currentBet < hand.getBiggestBet()) {  // put * 2 in a constant
       System.out.println("Choose a raise amount");
       try {
         raiseAmount = new Scanner(System.in).nextInt();
@@ -65,21 +66,24 @@ public class Player {
   }
 
   private Integer getPreFlopRaiseAmount() {
-    return getRaiseAmount(round.game.getBigBlind() * 2);
+    return getRaiseAmount(hand.game.getBigBlind() * 2);
   }
 
   Boolean hasEndedTurn() {
-    return !isPlaying || currentBet >= round.getBiggestBet();
+    return !isPlaying || currentBet >= hand.getBiggestBet();
   }
 
   void playPreFlop(Integer choice) {
     switch (choice) {
       case 1:
         fold();
+        break;
       case 2:
         call();
+        break;
       case 3:
         raise(getPreFlopRaiseAmount());
+        break;
       default:
         throw new RuntimeException("Invalid pre flop action");
     }
@@ -90,17 +94,20 @@ public class Player {
   }
 
   private Integer getFlopRaiseAmount() {
-    return getRaiseAmount(round.game.getBigBlind());
+    return getRaiseAmount(hand.game.getBigBlind());
   }
 
   void playFlop(Integer choice) {
     switch (choice) {
       case 1:
         fold();
+        break;
       case 2:
         call();
+        break;
       case 3:
         raise(getFlopRaiseAmount());
+        break;
       default:
         throw new RuntimeException("Invalid flop action");
     }
@@ -111,17 +118,20 @@ public class Player {
   }
 
   private Integer getTurnRaiseAmount() {
-    return getRaiseAmount(round.game.getBigBlind() * 2);
+    return getRaiseAmount(hand.game.getBigBlind() * 2);
   }
 
   void playTurn(Integer choice) {
     switch (choice) {
       case 1:
         fold();
+        break;
       case 2:
         call();
+        break;
       case 3:
         raise(getTurnRaiseAmount());
+        break;
       default:
         throw new RuntimeException("Invalid turn action");
     }
@@ -132,17 +142,20 @@ public class Player {
   }
 
   Integer getRiverRaiseAmount() {
-    return round.game.getBigBlind();
+    return hand.game.getBigBlind();
   }
 
   void playRiver(Integer choice) {
     switch (choice) {
       case 1:
         fold();
+        break;
       case 2:
         call();
+        break;
       case 3:
         raise(getRiverRaiseAmount());
+        break;
       default:
         throw new RuntimeException("Invalid river action");
     }
@@ -150,6 +163,10 @@ public class Player {
 
   void playRiver() {
     playRiver(chooseAction());
+  }
+
+  Combination getBestCombination() {
+    return null;
   }
 
   Integer getCurrentBet() {

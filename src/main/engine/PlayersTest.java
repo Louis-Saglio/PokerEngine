@@ -13,7 +13,7 @@ class PlayersTest {
 
   @BeforeEach
   void setUp() {
-    players = new Round(new Game(42, Arrays.asList("test1", "test2", "test3"))).getPlayers();
+    players = new Hand(new Game(42, Arrays.asList("test1", "test2", "test3"))).getPlayers();
   }
 
   @Test

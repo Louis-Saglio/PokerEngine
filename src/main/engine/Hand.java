@@ -2,24 +2,29 @@ package main.engine;
 
 import main.card.Card;
 import main.card.Deck;
+import main.card.combinations.ComparisonResult;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-class Round {
+class Hand {
   Game game;
   private final Deck deck = new Deck();
   private Players players = new Players();
   private final Integer dealerIndex = 0; // Maybe get from game in constructor
   private List<Card> board = new ArrayList<>();
 
-  Round(Game game) {
+  Hand(Game game) {
     this.game = game;
     for (Gamer gamer : this.game.getGamers()) {
       players.add(new Player(gamer, this));
     }
+  }
+
+  Players getPlayers() {
+    return players;
   }
 
   private void init() {
@@ -37,7 +42,7 @@ class Round {
   }
 
   private void doBlind() {
-    // Move to game ? No because it updates player.currentBet which is relevant only in a Round
+    // Move to game ? No because it updates player.currentBet which is relevant only in a Hand
     // context
     players.setCurrentIndex(dealerIndex + 1);
     players.getNext().bet(game.getSmallBlind());
@@ -47,7 +52,7 @@ class Round {
   private void handOutCards() {
     Integer cardNumber = 2; // Evolution : could be field in the future
     for (Player player : players) {
-      player.setCards(deck.getSomeCard(cardNumber));
+      player.setDownCards(deck.getSomeCard(cardNumber));
     }
   }
 
@@ -95,8 +100,18 @@ class Round {
     }
   }
 
-  Players getPlayers() {
-    return players;
+  private void showDown() {
+    Player player = players.stream().max((player1, player2) -> {
+      ComparisonResult comparisonResult = player1.getBestCombination().compares(player2.getBestCombination());
+      if (comparisonResult == ComparisonResult.SUPERIOR) {
+        return 1;
+      } else if (comparisonResult == ComparisonResult.INFERIOR) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }).get();//.win;
+    System.out.println(player);
   }
 
   void play() {

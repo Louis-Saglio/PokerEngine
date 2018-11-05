@@ -1,7 +1,7 @@
 package main.engine;
 
-public class Gamer {
-  private Integer money;
+class Gamer {
+  private Integer allIn;
   private final String name;
 
   @Override
@@ -9,12 +9,8 @@ public class Gamer {
     return name;
   }
 
-  public Gamer(String name, Integer money) {
-    this.money = money;
+  Gamer(String name, Integer allIn) {
+    this.allIn = allIn;
     this.name = name;
-  }
-
-  void decreaseMoney(Integer toRemove) {
-    this.money -= toRemove;
   }
 }
