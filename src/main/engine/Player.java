@@ -2,7 +2,9 @@ package main.engine;
 
 import main.card.Card;
 import main.card.combinations.Combination;
+import main.card.combinations.Paire;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -165,8 +167,26 @@ public class Player {
     playRiver(chooseAction());
   }
 
+  private List<Card> getAllCards() {
+    List<Card> allCards = new ArrayList<>();
+    allCards.addAll(downCards);
+    allCards.addAll(hand.getBoard());
+    return allCards;
+  }
+
   Combination getBestCombination() {
-    return null;
+    List<Combination> combinations = new ArrayList<>();
+    combinations.addAll(Paire.buildFromCards(getAllCards()));
+    return combinations.stream().max(Combination::compares).orElse(null);
+  }
+
+  Integer comparesCards(Player player) {
+    Combination bestCombination = getBestCombination();
+    Combination playerBestCombination = player.getBestCombination();
+    if (bestCombination == null && playerBestCombination == null) return 0;
+    else if (bestCombination == null) return -1;
+    else if (playerBestCombination == null) return 1;
+    return bestCombination.compares(playerBestCombination);
   }
 
   Integer getCurrentBet() {

@@ -15,14 +15,14 @@ public enum Rank {
   Queen(10),
   King(11);
 
-  private Integer rank;
+  private Integer value;
 
-  Rank(Integer rank){
-    this.rank = rank;
+  Rank(Integer value) {
+    this.value = value;
   }
 
-  private Integer getRank(){
-    return this.rank;
+  public Integer getValue() {
+    return this.value;
   }
 
 }
