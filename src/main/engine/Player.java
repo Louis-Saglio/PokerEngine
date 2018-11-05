@@ -110,6 +110,27 @@ public class Player {
     playFlop(chooseAction());
   }
 
+  private Integer getTurnRaiseAmount() {
+    return getRaiseAmount(round.game.getBigBlind() * 2);
+  }
+
+  void playTurn(Integer choice) {
+    switch (choice) {
+      case 1:
+        fold();
+      case 2:
+        call();
+      case 3:
+        raise(getTurnRaiseAmount());
+      default:
+        throw new RuntimeException("Invalid turn action");
+    }
+  }
+
+  void playTurn() {
+    playTurn(chooseAction());
+  }
+
   Integer getCurrentBet() {
     return currentBet;
   }
