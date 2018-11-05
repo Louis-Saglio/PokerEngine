@@ -3,10 +3,7 @@ package main.engine;
 import main.card.Card;
 import main.card.Deck;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class Hand {
   final Game game;
@@ -108,14 +105,14 @@ class Hand {
     }
   }
 
-  Player getWinner() {
-    return players.stream().max(Player::comparesCards).orElse(null);
-  }
-
   private void showDown() {
     System.out.println("Hand.showDown");
-    Player player = getWinner();//.win;
-    System.out.println(player);
+    HashMap<PlayerStatus, List<Player>> playersByResult = players.getPlayersByResult();
+    Integer pot = players.stream().mapToInt(Player::getCurrentBet).sum();
+    List<Player> winners = playersByResult.get(PlayerStatus.WINNER);
+    Integer earnedMoneyByPlayer = pot - (pot % winners.size()) / winners.size();
+    winners.forEach(player -> player.win(earnedMoneyByPlayer));
+    playersByResult.get(PlayerStatus.LOOSER).forEach(Player::loose);
   }
 
   void play() {

@@ -27,4 +27,8 @@ public abstract class Combination {
     }
   }
 
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName() + " " + cards.stream().map(Card::toString);
+  }
 }

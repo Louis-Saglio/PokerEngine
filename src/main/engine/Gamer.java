@@ -13,4 +13,8 @@ class Gamer {
     this.allIn = allIn;
     this.name = name;
   }
+
+  void increaseMoney(Integer money) {
+    this.allIn += money;
+  }
 }

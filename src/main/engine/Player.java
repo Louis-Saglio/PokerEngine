@@ -177,7 +177,9 @@ class Player {
   Combination getBestCombination() {
     List<Combination> combinations = new ArrayList<>();
     combinations.addAll(Paire.buildFromCards(getAllCards()));
-    return combinations.stream().max(Combination::compares).orElse(null);
+    Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
+    System.out.println(toString() + " : " + bestCombination);
+    return bestCombination;
   }
 
   Integer comparesCards(Player player) {
@@ -189,11 +191,24 @@ class Player {
     return bestCombination.compares(playerBestCombination);
   }
 
+  void win(Integer money) {
+    gamer.increaseMoney(money - currentBet);
+  }
+
+  void loose() {
+    gamer.increaseMoney(-currentBet);
+  }
+
   Integer getCurrentBet() {
     return currentBet;
   }
 
   Boolean getIsPlaying() {
     return isPlaying;
+  }
+
+  @Override
+  public String toString() {
+    return gamer.toString();
   }
 }
