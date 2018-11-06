@@ -55,6 +55,31 @@ class PaireTest {
   }
 
   @Test
+  void buildFromCards4() {
+    List<Card> sourceCards = Arrays.asList(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.HEART, Rank.Ace),
+        new Card(Suit.SPADE, Rank.Ace),
+        new Card(Suit.DIAMOND, Rank.Ace)
+    );
+    List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
+    List<Paire> actual = Paire.buildFromCards(sourceCards);
+    assertArrayEquals(expected.toArray(), actual.toArray());
+  }
+
+  @Test
+  void buildFromCards5() {
+    List<Card> sourceCards = Arrays.asList(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.HEART, Rank.Ace),
+        new Card(Suit.SPADE, Rank.Ace)
+    );
+    List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
+    List<Paire> actual = Paire.buildFromCards(sourceCards);
+    assertArrayEquals(expected.toArray(), actual.toArray());
+  }
+
+  @Test
   void comparesWithSame() {
     assertEquals((Integer) 0, new Paire(Rank.Ace).comparesWithSame(new Paire(Rank.Ace)));
   }
