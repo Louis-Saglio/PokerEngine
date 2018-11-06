@@ -2,6 +2,7 @@ package main.engine;
 
 import main.card.Card;
 import main.card.combinations.Combination;
+import main.card.combinations.DoublePaire;
 import main.card.combinations.Paire;
 
 import java.util.ArrayList;
@@ -176,7 +177,9 @@ class Player {
 
   Combination getBestCombination() {
     List<Combination> combinations = new ArrayList<>();
-    combinations.addAll(Paire.buildFromCards(getAllCards()));
+    List<Card> allCards = getAllCards();
+    combinations.addAll(Paire.buildFromCards(allCards));
+    combinations.addAll(DoublePaire.buildFromCards(allCards));
     Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
     System.out.println(toString() + " : " + bestCombination);
     return bestCombination;

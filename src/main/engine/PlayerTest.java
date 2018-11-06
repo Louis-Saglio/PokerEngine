@@ -4,7 +4,7 @@ import main.card.Card;
 import main.card.Rank;
 import main.card.Suit;
 import main.card.combinations.Combination;
-import main.card.combinations.Paire;
+import main.card.combinations.DoublePaire;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -28,7 +28,7 @@ class PlayerTest {
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight)
     ));
-    Combination expected = new Paire(Rank.Ace);
+    Combination expected = new DoublePaire(Rank.Ace, Rank.Eight);
     Combination actual = hand.getPlayers().get(0).getBestCombination();
     assertEquals(expected, actual);
   }
