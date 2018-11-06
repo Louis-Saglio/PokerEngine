@@ -18,9 +18,8 @@ public class Paire extends Combination {
     this.rank = rank;
   }
 
-
-  public static List<Combination> buildFromCards(List<Card> cards) {
-    List<Combination> paires = new ArrayList<>();
+  public static List<Paire> buildFromCards(List<Card> cards) {
+    List<Paire> paires = new ArrayList<>();
     LinkedList<Rank> doneRanks = new LinkedList<>();
     for (Card card : cards) {
       for (Card card1 : cards) {
@@ -31,6 +30,14 @@ public class Paire extends Combination {
       }
     }
     return paires;
+  }
+
+  static Integer getNextValue() {
+    return value + 1;
+  }
+
+  Rank getRank() {
+    return rank;
   }
 
   @Override
@@ -48,14 +55,6 @@ public class Paire extends Combination {
   @Override
   public String toString() {
     return "Paire of " + rank;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Paire paire = (Paire) o;
-    return rank == paire.rank;
   }
 
   @Override

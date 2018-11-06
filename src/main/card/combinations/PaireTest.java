@@ -29,7 +29,7 @@ class PaireTest {
         new Paire(Rank.Ace),
         new Paire(Rank.Eight)
     );
-    List<Combination> actual = Paire.buildFromCards(sourceCards);
+    List<Paire> actual = Paire.buildFromCards(sourceCards);
     assertArrayEquals(expected.toArray(), actual.toArray());
   }
 
@@ -39,7 +39,7 @@ class PaireTest {
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight)
     );
-    List<Combination> actual = Paire.buildFromCards(sourceCards);
+    List<Paire> actual = Paire.buildFromCards(sourceCards);
     assertArrayEquals(new Paire[]{}, actual.toArray());
   }
 
@@ -50,7 +50,7 @@ class PaireTest {
         new Card(Suit.CLUB, Rank.Ace)
     );
     List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
-    List<Combination> actual = Paire.buildFromCards(sourceCards);
+    List<Paire> actual = Paire.buildFromCards(sourceCards);
     assertArrayEquals(expected.toArray(), actual.toArray());
   }
 
