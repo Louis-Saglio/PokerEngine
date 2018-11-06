@@ -3,44 +3,62 @@ package main.card.combinations;
 import main.card.Card;
 import main.card.Rank;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DoublePaire extends Combination {
 
   private static final Integer value = Paire.getNextValue();
-  private final List<Rank> ranks;
 
   public DoublePaire(Rank rank1, Rank rank2) {
     super(value);
-    ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).collect(Collectors.toList());
+    ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).collect(Collectors.toList()); // Weaker first
   }
 
+  private final List<Rank> ranks;
+
   public static List<DoublePaire> buildFromCards(List<Card> cards) {
-    List<Paire> paires = Paire.buildFromCards(cards).stream().sorted(Combination::compares).collect(Collectors.toList());
-    if (paires.size() % 2 == 1) {
-      paires.remove(paires.size() - 1);
+    HashMap<Rank, Integer> nbrByRank = new HashMap<>();
+    for (Card card : cards) {
+      if (!nbrByRank.containsKey(card.getRank())) {
+        nbrByRank.put(card.getRank(), 0);
+      }
+      nbrByRank.put(card.getRank(), nbrByRank.get(card.getRank()) + 1);
+    }
+    List<Rank> paires = new ArrayList<>();
+    for (Map.Entry<Rank, Integer> key_value : nbrByRank.entrySet()) {
+      int paireNbr = key_value.getValue() / 2;
+      for (int i = 0; i < paireNbr; i++) {
+        paires.add(key_value.getKey());
+      }
     }
     List<DoublePaire> doublePaires = new ArrayList<>();
-    for (int i = 0; i < paires.size(); i += 2) {
-      doublePaires.add(new DoublePaire(paires.get(i).getRank(), paires.get(i + 1).getRank()));
+    for (int i = 0; i < paires.size(); i++) {
+      for (int j = 0; j < paires.size(); j++) {
+        DoublePaire doublePaire = new DoublePaire(paires.get(i), paires.get(j));
+        if (i != j && !doublePaires.contains(doublePaire)) {
+          doublePaires.add(doublePaire);
+        }
+      }
     }
     return doublePaires;
+  }
+
+  public List<Rank> getRanksForTest() {
+    return ranks;
   }
 
   @Override
   Integer comparesWithSame(Combination combination) {
     DoublePaire doublePaire = (DoublePaire) combination;
-    if (ranks.get(0).getValue() > doublePaire.ranks.get(0).getValue()) {
-      return 1;
-    } else if (ranks.get(0).getValue() < doublePaire.ranks.get(0).getValue()) {
-      return -1;
-    } else if (ranks.get(1).getValue() > doublePaire.ranks.get(1).getValue()) {
+    if (ranks.get(1).getValue() > doublePaire.ranks.get(1).getValue()) {
       return 1;
     } else if (ranks.get(1).getValue() < doublePaire.ranks.get(1).getValue()) {
+      return -1;
+    } else if (ranks.get(0).getValue() > doublePaire.ranks.get(0).getValue()) {
+      return 1;
+    } else if (ranks.get(0).getValue() < doublePaire.ranks.get(0).getValue()) {
       return -1;
     } else {
       return 0;
@@ -49,6 +67,6 @@ public class DoublePaire extends Combination {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + " of " + ranks.get(0) + " and " + ranks.get(1);
+    return getClass().getSimpleName() + " of " + ranks.get(1) + " and " + ranks.get(0);
   }
 }
