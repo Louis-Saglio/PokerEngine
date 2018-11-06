@@ -18,8 +18,8 @@ public class DoublePaire extends Combination {
 
   private final List<Rank> ranks;
 
-  public static List<DoublePaire> buildFromCards(List<Card> cards) {
-    HashMap<Rank, Integer> nbrByRank = new HashMap<>();
+  public static Set<Combination> buildFromCards(List<Card> cards) {
+    LinkedHashMap<Rank, Integer> nbrByRank = new LinkedHashMap<>();
     for (Card card : cards) {
       if (!nbrByRank.containsKey(card.getRank())) {
         nbrByRank.put(card.getRank(), 0);
@@ -33,11 +33,11 @@ public class DoublePaire extends Combination {
         paires.add(key_value.getKey());
       }
     }
-    List<DoublePaire> doublePaires = new ArrayList<>();
+    Set<Combination> doublePaires = new HashSet<>();
     for (int i = 0; i < paires.size(); i++) {
       for (int j = 0; j < paires.size(); j++) {
         DoublePaire doublePaire = new DoublePaire(paires.get(i), paires.get(j));
-        if (i != j && !doublePaires.contains(doublePaire)) {
+        if (i != j) {
           doublePaires.add(doublePaire);
         }
       }

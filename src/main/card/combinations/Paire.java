@@ -3,10 +3,7 @@ package main.card.combinations;
 import main.card.Card;
 import main.card.Rank;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Paire extends Combination {
 
@@ -18,8 +15,8 @@ public class Paire extends Combination {
     this.rank = rank;
   }
 
-  public static List<Paire> buildFromCards(List<Card> cards) {
-    List<Paire> paires = new ArrayList<>();
+  public static Set<Combination> buildFromCards(List<Card> cards) {
+    Set<Combination> paires = new HashSet<>();
     LinkedList<Rank> doneRanks = new LinkedList<>();
     for (Card card : cards) {
       for (Card card1 : cards) {

@@ -5,11 +5,8 @@ import main.card.Rank;
 import main.card.Suit;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PaireTest {
@@ -25,12 +22,12 @@ class PaireTest {
         new Card(Suit.DIAMOND, Rank.King),
         new Card(Suit.CLUB, Rank.Queen)
     );
-    List<Paire> expected = Arrays.asList(
+    Set<Paire> expected = new HashSet<>(Arrays.asList(
         new Paire(Rank.Ace),
         new Paire(Rank.Eight)
-    );
-    List<Paire> actual = Paire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    ));
+    Set<Combination> actual = Paire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -39,8 +36,8 @@ class PaireTest {
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight)
     );
-    List<Paire> actual = Paire.buildFromCards(sourceCards);
-    assertArrayEquals(new Paire[]{}, actual.toArray());
+    Set<Combination> actual = Paire.buildFromCards(sourceCards);
+    assertEquals(new HashSet<Paire>(), actual);
   }
 
   @Test
@@ -49,9 +46,9 @@ class PaireTest {
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Ace)
     );
-    List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
-    List<Paire> actual = Paire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    Set<Paire> expected = new HashSet<>(Collections.singletonList(new Paire(Rank.Ace)));
+    Set<Combination> actual = Paire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -62,9 +59,9 @@ class PaireTest {
         new Card(Suit.SPADE, Rank.Ace),
         new Card(Suit.DIAMOND, Rank.Ace)
     );
-    List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
-    List<Paire> actual = Paire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    Set<Paire> expected = new HashSet<>(Collections.singletonList(new Paire(Rank.Ace)));
+    Set<Combination> actual = Paire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -74,9 +71,9 @@ class PaireTest {
         new Card(Suit.HEART, Rank.Ace),
         new Card(Suit.SPADE, Rank.Ace)
     );
-    List<Paire> expected = Collections.singletonList(new Paire(Rank.Ace));
-    List<Paire> actual = Paire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    Set<Paire> expected = new HashSet<>(Collections.singletonList(new Paire(Rank.Ace)));
+    Set<Combination> actual = Paire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test

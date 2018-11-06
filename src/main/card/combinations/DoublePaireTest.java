@@ -5,9 +5,7 @@ import main.card.Rank;
 import main.card.Suit;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,7 +33,7 @@ class DoublePaireTest {
     List<DoublePaire> expected = Collections.singletonList(
         new DoublePaire(Rank.Eight, Rank.Ace)
     );
-    List<DoublePaire> actual = DoublePaire.buildFromCards(sourceCards);
+    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
     assertArrayEquals(expected.toArray(), actual.toArray());
   }
 
@@ -51,12 +49,13 @@ class DoublePaireTest {
         new Card(Suit.DIAMOND, Rank.Ace),
         new Card(Suit.CLUB, Rank.Ace)
     );
-    List<DoublePaire> expected = Arrays.asList(
+    Set<DoublePaire> expected = new HashSet<>(Arrays.asList(
         new DoublePaire(Rank.Eight, Rank.Ace),
         new DoublePaire(Rank.Ace, Rank.Ace)
-    );
-    List<DoublePaire> actual = DoublePaire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    ));
+
+    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
@@ -70,11 +69,10 @@ class DoublePaireTest {
         new Card(Suit.DIAMOND, Rank.King),
         new Card(Suit.DIAMOND, Rank.Ace)
     );
-    List<DoublePaire> expected = Collections.singletonList(
-        new DoublePaire(Rank.Eight, Rank.Ace)
-    );
-    List<DoublePaire> actual = DoublePaire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    Set<DoublePaire> expected = new HashSet<>();
+    expected.add(new DoublePaire(Rank.Eight, Rank.Ace));
+    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
