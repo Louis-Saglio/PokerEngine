@@ -1,13 +1,10 @@
 package main.card.combinations;
 
-import main.card.Card;
-
-import java.util.List;
+import java.util.Objects;
 
 public abstract class Combination {
 
   private final Integer value;
-  protected List<Card> cards;
 
   Combination(Integer value) {
     this.value = value;
@@ -22,13 +19,27 @@ public abstract class Combination {
       return 1;
     } else if (value < combination.value) {
       return -1;
-    } else {
+    } else if (combination.getClass() == getClass()) {
       return comparesWithSame(combination);
+    } else {
+      throw new RuntimeException("Different combination with same value");
     }
+
   }
 
   @Override
   public String toString() {
-    return this.getClass().getSimpleName() + " " + cards.stream().map(Card::toString);
+    return this.getClass().getSimpleName() + ", value : " + value;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o.getClass().getSuperclass() == getClass()) return false;
+    return compares((Combination) o) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(value);
   }
 }
