@@ -13,7 +13,7 @@ public class DoublePaire extends Combination {
 
   public DoublePaire(Rank rank1, Rank rank2) {
     super(value);
-    ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).collect(Collectors.toList()); // Weaker first
+    ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue))).collect(Collectors.toList());
   }
 
   private final List<Rank> ranks;
@@ -52,13 +52,13 @@ public class DoublePaire extends Combination {
   @Override
   Integer comparesWithSame(Combination combination) {
     DoublePaire doublePaire = (DoublePaire) combination;
-    if (ranks.get(1).getValue() > doublePaire.ranks.get(1).getValue()) {
-      return 1;
-    } else if (ranks.get(1).getValue() < doublePaire.ranks.get(1).getValue()) {
-      return -1;
-    } else if (ranks.get(0).getValue() > doublePaire.ranks.get(0).getValue()) {
+    if (ranks.get(0).getValue() > doublePaire.ranks.get(0).getValue()) {
       return 1;
     } else if (ranks.get(0).getValue() < doublePaire.ranks.get(0).getValue()) {
+      return -1;
+    } else if (ranks.get(1).getValue() > doublePaire.ranks.get(1).getValue()) {
+      return 1;
+    } else if (ranks.get(1).getValue() < doublePaire.ranks.get(1).getValue()) {
       return -1;
     } else {
       return 0;
@@ -67,6 +67,6 @@ public class DoublePaire extends Combination {
 
   @Override
   public String toString() {
-    return getClass().getSimpleName() + " of " + ranks.get(1) + " and " + ranks.get(0);
+    return getClass().getSimpleName() + " of " + ranks.get(0) + " and " + ranks.get(1);
   }
 }
