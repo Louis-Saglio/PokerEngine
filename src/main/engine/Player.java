@@ -3,6 +3,7 @@ package main.engine;
 import main.card.Card;
 import main.card.combinations.Combination;
 import main.card.combinations.DoublePaire;
+import main.card.combinations.Hauteur;
 import main.card.combinations.Paire;
 
 import java.util.ArrayList;
@@ -180,6 +181,7 @@ class Player {
     List<Card> allCards = getAllCards();
     combinations.addAll(Paire.buildFromCards(allCards));
     combinations.addAll(DoublePaire.buildFromCards(allCards));
+    combinations.addAll(Hauteur.buildFromCards(allCards));
     Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
     System.out.println(toString() + " : " + bestCombination);
     return bestCombination;

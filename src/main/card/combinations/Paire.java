@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Paire extends Combination {
 
-  private static final Integer value = 0;
+  private static final Integer value = Hauteur.getNextValue();
   private final Rank rank;
 
   public Paire(Rank rank) {
