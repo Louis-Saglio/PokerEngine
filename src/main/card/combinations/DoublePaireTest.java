@@ -14,8 +14,22 @@ class DoublePaireTest {
 
   @Test
   void DoublePaire() {
-    List<Rank> expected = Arrays.asList(Rank.Eight, Rank.Ten);
-    List<Rank> actual = new DoublePaire(Rank.Ten, Rank.Eight).getRanksForTest();
+    List<Rank> expected = Arrays.asList(Rank.Ten, Rank.Eight);
+    List<Rank> actual = new DoublePaire(Rank.Eight, Rank.Ten).getRanksForTest();
+    assertArrayEquals(expected.toArray(), actual.toArray());
+  }
+
+  @Test
+  void DoublePaire1() {
+    List<Rank> expected = Arrays.asList(Rank.Eight, Rank.Two);
+    List<Rank> actual = new DoublePaire(Rank.Two, Rank.Eight).getRanksForTest();
+    assertArrayEquals(expected.toArray(), actual.toArray());
+  }
+
+  @Test
+  void DoublePaire2() {
+    List<Rank> expected = Arrays.asList(Rank.Ace, Rank.Two);
+    List<Rank> actual = new DoublePaire(Rank.Two, Rank.Ace).getRanksForTest();
     assertArrayEquals(expected.toArray(), actual.toArray());
   }
 
