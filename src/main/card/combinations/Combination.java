@@ -10,8 +10,6 @@ public abstract class Combination {
     this.value = value;
   }
 
-//  abstract List<Combination> buildFromCards(Card ...cards);
-
   abstract Integer comparesWithSame(Combination combination);
 
   public Integer compares(Combination combination) {

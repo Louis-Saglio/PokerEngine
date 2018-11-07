@@ -33,10 +33,6 @@ public class Paire extends Combination {
     return value + 1;
   }
 
-  Rank getRank() {
-    return rank;
-  }
-
   @Override
   Integer comparesWithSame(Combination combination) {
     Paire paire = (Paire) combination;
