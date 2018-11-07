@@ -80,4 +80,11 @@ class PaireTest {
   void comparesWithSame() {
     assertEquals((Integer) 0, new Paire(Rank.Ace).comparesWithSame(new Paire(Rank.Ace)));
   }
+
+  @Test
+  void comparesWithOtherSuperior() {
+    Paire paire = new Paire(Rank.Ace);
+    DoublePaire doublePaire = new DoublePaire(Rank.Five, Rank.Four);
+    assertEquals((Integer) (-1), paire.compares(doublePaire));
+  }
 }

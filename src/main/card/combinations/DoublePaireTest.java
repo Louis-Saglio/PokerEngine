@@ -95,4 +95,11 @@ class DoublePaireTest {
     DoublePaire second = new DoublePaire(Rank.Ace, Rank.Two);
     assertEquals((Integer) (-1), first.compares(second));
   }
+
+  @Test
+  void comparesWithOtherInferior() {
+    Paire paire = new Paire(Rank.Five);
+    DoublePaire doublePaire = new DoublePaire(Rank.Three, Rank.Two);
+    assertEquals((Integer) 1, doublePaire.compares(paire));
+  }
 }
