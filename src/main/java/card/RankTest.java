@@ -1,4 +1,4 @@
-package main.card;
+package main.java.card;
 
 import org.junit.jupiter.api.Test;
 

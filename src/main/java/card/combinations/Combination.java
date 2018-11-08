@@ -1,4 +1,4 @@
-package main.card.combinations;
+package main.java.card.combinations;
 
 import java.util.Objects;
 

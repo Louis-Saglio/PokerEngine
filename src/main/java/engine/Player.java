@@ -1,10 +1,10 @@
-package main.engine;
+package main.java.engine;
 
-import main.card.Card;
-import main.card.combinations.Combination;
-import main.card.combinations.DoublePaire;
-import main.card.combinations.Hauteur;
-import main.card.combinations.Paire;
+import main.java.card.Card;
+import main.java.card.combinations.Combination;
+import main.java.card.combinations.DoublePaire;
+import main.java.card.combinations.Hauteur;
+import main.java.card.combinations.Paire;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

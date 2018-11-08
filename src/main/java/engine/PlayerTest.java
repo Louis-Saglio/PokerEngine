@@ -1,10 +1,10 @@
-package main.engine;
+package main.java.engine;
 
-import main.card.Card;
-import main.card.Rank;
-import main.card.Suit;
-import main.card.combinations.Combination;
-import main.card.combinations.DoublePaire;
+import main.java.card.Card;
+import main.java.card.Rank;
+import main.java.card.Suit;
+import main.java.card.combinations.Combination;
+import main.java.card.combinations.DoublePaire;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

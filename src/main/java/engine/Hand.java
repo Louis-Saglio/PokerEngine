@@ -1,7 +1,7 @@
-package main.engine;
+package main.java.engine;
 
-import main.card.Card;
-import main.card.Deck;
+import main.java.card.Card;
+import main.java.card.Deck;
 
 import java.util.*;
 

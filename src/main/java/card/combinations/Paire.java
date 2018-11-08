@@ -1,7 +1,7 @@
-package main.card.combinations;
+package main.java.card.combinations;
 
-import main.card.Card;
-import main.card.Rank;
+import main.java.card.Card;
+import main.java.card.Rank;
 
 import java.util.*;
 

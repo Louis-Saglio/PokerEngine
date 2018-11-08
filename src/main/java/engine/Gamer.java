@@ -1,4 +1,4 @@
-package main.engine;
+package main.java.engine;
 
 class Gamer {
   private Integer allIn;

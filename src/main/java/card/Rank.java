@@ -1,4 +1,4 @@
-package main.card;
+package main.java.card;
 
 public enum Rank {
 
