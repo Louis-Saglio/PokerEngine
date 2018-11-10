@@ -16,6 +16,10 @@ public class DoublePaire extends Combination {
     ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue))).collect(Collectors.toList());
   }
 
+  static Integer getNextValue() {
+    return value + 1;
+  }
+
   private final List<Rank> ranks;
 
   public static Set<Combination> buildFromCards(List<Card> cards) {
