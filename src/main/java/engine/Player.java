@@ -1,10 +1,8 @@
 package main.java.engine;
 
 import main.java.card.Card;
-import main.java.card.combinations.Combination;
-import main.java.card.combinations.DoublePaire;
-import main.java.card.combinations.Hauteur;
-import main.java.card.combinations.Paire;
+import main.java.card.Cards;
+import main.java.card.combinations.*;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -169,19 +167,26 @@ class Player {
     playRiver(chooseAction());
   }
 
-  private List<Card> getAllCards() {
-    List<Card> allCards = new ArrayList<>();
+  private Cards getAllCards() {
+    Cards allCards = new Cards();
     allCards.addAll(downCards);
     allCards.addAll(hand.getBoard());
     return allCards;
   }
 
   Combination getBestCombination() {
-    List<Combination> combinations = new ArrayList<>();
-    List<Card> allCards = getAllCards();
+    List<Combination> combinations = new ArrayList<Combination>() {
+      @Override
+      public boolean add(Combination o) {
+        if (o == null) return false;
+        return super.add(o);
+      }
+    };
+    Cards allCards = getAllCards();
     combinations.addAll(Paire.buildFromCards(allCards));
     combinations.addAll(DoublePaire.buildFromCards(allCards));
     combinations.addAll(Hauteur.buildFromCards(allCards));
+    combinations.add(Full.buildBestFromCards(allCards));
     Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
     System.out.println(toString() + " : " + bestCombination);
     return bestCombination;

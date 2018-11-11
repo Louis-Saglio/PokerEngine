@@ -2,18 +2,16 @@ package main.java.card.combinations;
 
 import main.java.card.Cards;
 import main.java.card.Rank;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 
 public class Full extends Combination {
 
   private static Integer value = DoublePaire.getNextValue();
-  @NotNull
   private Rank doubleRank;
   private Rank tripletRank;
 
-  Full(Rank tripletRank, @NotNull Rank doubleRank) {
+  Full(Rank tripletRank, Rank doubleRank) {
     super(value);
     this.tripletRank = tripletRank;
     this.doubleRank = doubleRank;
@@ -24,12 +22,15 @@ public class Full extends Combination {
         .stream()
         .max(Comparator.comparingInt(Rank::getValue))
         .orElse(null);
+    if (bestTriplet == null) {
+      return null;
+    }
     Rank bestDouble = cards.getRanksByMinimumNbr(2)
         .stream()
         .filter(rank -> rank != bestTriplet)
         .max(Comparator.comparingInt(Rank::getValue))
         .orElse(null);
-    return new Full(bestTriplet, bestDouble);
+    return bestDouble != null ? new Full(bestTriplet, bestDouble) : null;
   }
 
   @Override
