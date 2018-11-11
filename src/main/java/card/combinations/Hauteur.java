@@ -32,7 +32,7 @@ public class Hauteur extends Combination {
   }
 
   @Override
-  Integer comparesWithSame(Combination combination) {
+  protected Integer comparesWithSame(Combination combination) {
     Hauteur hauteur = (Hauteur) combination;
     if (ranks.size() != hauteur.ranks.size()) throw new RuntimeException("Can't compare hauteurs of different sizes");
     for (int i = 0; i < ranks.size(); i++) {

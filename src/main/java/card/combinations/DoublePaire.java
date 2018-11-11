@@ -54,7 +54,7 @@ public class DoublePaire extends Combination {
   }
 
   @Override
-  Integer comparesWithSame(Combination combination) {
+  protected Integer comparesWithSame(Combination combination) {
     DoublePaire doublePaire = (DoublePaire) combination;
     if (ranks.get(0).getValue() > doublePaire.ranks.get(0).getValue()) {
       return 1;

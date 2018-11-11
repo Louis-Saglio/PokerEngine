@@ -34,7 +34,7 @@ public class Full extends Combination {
   }
 
   @Override
-  Integer comparesWithSame(Combination combination) {
+  protected Integer comparesWithSame(Combination combination) {
     Full full = (Full) combination;
     if (tripletRank.getValue() > full.tripletRank.getValue()) {
       return 1;
