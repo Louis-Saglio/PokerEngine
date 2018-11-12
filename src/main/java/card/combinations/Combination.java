@@ -32,6 +32,7 @@ public abstract class Combination {
 
   @Override
   public boolean equals(Object o) {
+    if (o == null) return false;
     if (o.getClass().getSuperclass() == getClass()) return false;
     return compares((Combination) o) == 0;
   }

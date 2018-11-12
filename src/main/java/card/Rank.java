@@ -2,7 +2,7 @@ package main.java.card;
 
 public enum Rank {
 
-  Ace(12),
+  Ace(13),
   Two(0),
   Three(1),
   Four(2),
@@ -10,10 +10,11 @@ public enum Rank {
   Six(4),
   Seven(5),
   Eight(7),
-  Ten(8),
-  Jack(9),
-  Queen(10),
-  King(11);
+  Nine(8),
+  Ten(9),
+  Jack(10),
+  Queen(11),
+  King(12);
 
   private final Integer value;
 

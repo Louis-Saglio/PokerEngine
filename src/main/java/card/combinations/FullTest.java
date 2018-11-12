@@ -7,6 +7,7 @@ import main.java.card.Suit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class FullTest {
 
@@ -27,7 +28,26 @@ class FullTest {
   }
 
   @Test
+  void buildBestFromCardsNull() {
+    Cards sourceCards = new Cards(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.SPADE, Rank.Ace),
+        new Card(Suit.HEART, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.King),
+        new Card(Suit.CLUB, Rank.Queen)
+    );
+    Combination actual = Full.buildBestFromCards(sourceCards);
+    assertNull(actual);
+  }
+
+  @Test
   void comparesWithSame() {
     assertEquals((Integer) (-1), new Full(Rank.Three, Rank.Queen).compares(new Full(Rank.Three, Rank.King)));
+  }
+
+  @Test
+  void comparesWithInferior() {
+    assertEquals((Integer) 1, new Full(Rank.Six, Rank.Nine).compares(new Full(Rank.Five, Rank.Queen)));
   }
 }
