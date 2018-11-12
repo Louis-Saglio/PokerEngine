@@ -184,8 +184,11 @@ class Player {
       }
     };
     Cards allCards = getAllCards();
-    combinations.addAll(Paire.buildFromCards(allCards));
     combinations.addAll(Hauteur.buildFromCards(allCards));
+    try {
+      combinations.add(new Paire(allCards));
+    } catch (CombinationCreationError ignored) {
+    }
     try {
       combinations.add(new Full(allCards));
     } catch (CombinationCreationError ignored) {

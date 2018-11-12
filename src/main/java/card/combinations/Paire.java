@@ -1,7 +1,9 @@
 package main.java.card.combinations;
 
 import main.java.card.Card;
+import main.java.card.Cards;
 import main.java.card.Rank;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 
 import java.util.*;
 
@@ -13,6 +15,14 @@ public class Paire extends Combination {
   public Paire(Rank rank) {
     super(value);
     this.rank = rank;
+  }
+
+  public Paire(Cards cards) {
+    super(value);
+    rank = cards.getRanksByMinimumNbr(2)
+        .stream()
+        .max(Comparator.comparingInt(Rank::getValue))
+        .orElseThrow(() -> new CombinationCreationError("bad paire creation"));
   }
 
   public static Set<Combination> buildFromCards(List<Card> cards) {
