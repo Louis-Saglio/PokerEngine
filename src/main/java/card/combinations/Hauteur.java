@@ -1,9 +1,13 @@
 package main.java.card.combinations;
 
 import main.java.card.Card;
+import main.java.card.Cards;
 import main.java.card.Rank;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Hauteur extends Combination {
@@ -14,21 +18,21 @@ public class Hauteur extends Combination {
     super(value);
     this.ranks = ranks
         .stream()
-        .sorted(Comparator.comparingInt(Rank::getValue))
-        .sorted(Collections.reverseOrder())
+        .sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue)))
+        .collect(Collectors.toList());
+  }
+
+  public Hauteur(Cards cards) {
+    super(value);
+    this.ranks = cards
+        .stream()
+        .map(Card::getRank)
+        .sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue)))
         .collect(Collectors.toList());
   }
 
   static Integer getNextValue() {
     return value + 1;
-  }
-
-  public static List<Combination> buildFromCards(List<Card> cards) {
-    List<Rank> ranks = new ArrayList<>();
-    for (Card card : cards) {
-      ranks.add(card.getRank());
-    }
-    return Collections.singletonList(new Hauteur(ranks));
   }
 
   List<Rank> getRanksForTest() {

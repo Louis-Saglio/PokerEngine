@@ -1,12 +1,12 @@
 package main.java.card.combinations;
 
 import main.java.card.Card;
+import main.java.card.Cards;
 import main.java.card.Rank;
 import main.java.card.Suit;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -23,22 +23,17 @@ class HauteurTest {
 
   @Test
   void buildFromCards() {
-    List<Hauteur> expected =
-        Collections.singletonList(
-            new Hauteur(
-                Arrays.asList(
-                    Rank.Ace, Rank.Ace, Rank.Ace, Rank.King, Rank.Jack, Rank.Eight, Rank.Eight)));
-    List<Combination> actual =
-        Hauteur.buildFromCards(
-            Arrays.asList(
-                new Card(Suit.CLUB, Rank.Ace),
-                new Card(Suit.CLUB, Rank.Eight),
-                new Card(Suit.SPADE, Rank.Ace),
-                new Card(Suit.HEART, Rank.Eight),
-                new Card(Suit.DIAMOND, Rank.Jack),
-                new Card(Suit.DIAMOND, Rank.King),
-                new Card(Suit.DIAMOND, Rank.Ace)));
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    Hauteur expected = new Hauteur(Arrays.asList(Rank.Ace, Rank.Ace, Rank.Ace, Rank.King, Rank.Jack, Rank.Eight, Rank.Eight));
+    Cards sourceCards = new Cards(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.CLUB, Rank.Eight),
+        new Card(Suit.SPADE, Rank.Ace),
+        new Card(Suit.HEART, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.Jack),
+        new Card(Suit.DIAMOND, Rank.King),
+        new Card(Suit.DIAMOND, Rank.Ace));
+    Hauteur actual = new Hauteur(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
