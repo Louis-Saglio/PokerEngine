@@ -28,6 +28,7 @@ public class Cards extends ArrayList<Card> {
         .entrySet()
         .stream()
         .filter(entry -> entry.getValue() >= minimumNbr)
+        // todo addAll ?
         .collect(ArrayList::new, (ranks, rankIntegerEntry) -> ranks.add(rankIntegerEntry.getKey()), ArrayList::addAll);
   }
 
