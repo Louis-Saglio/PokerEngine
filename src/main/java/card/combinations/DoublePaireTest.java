@@ -1,14 +1,16 @@
 package main.java.card.combinations;
 
 import main.java.card.Card;
+import main.java.card.Cards;
 import main.java.card.Rank;
 import main.java.card.Suit;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DoublePaireTest {
 
@@ -34,8 +36,56 @@ class DoublePaireTest {
   }
 
   @Test
+  void DoublePaireBuilder() {
+    DoublePaire expected = new DoublePaire(Rank.Jack, Rank.Eight);
+    Cards sourceCards = new Cards(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.CLUB, Rank.Eight),
+        new Card(Suit.SPADE, Rank.Jack),
+        new Card(Suit.HEART, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.Jack),
+        new Card(Suit.DIAMOND, Rank.King),
+        new Card(Suit.CLUB, Rank.Queen)
+    );
+    DoublePaire actual = new DoublePaire(sourceCards);
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void DoublePaireBuilderMultiple() {
+    DoublePaire expected = new DoublePaire(Rank.Jack, Rank.Queen);
+    Cards sourceCards = new Cards(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.CLUB, Rank.Eight),
+        new Card(Suit.SPADE, Rank.Jack),
+        new Card(Suit.HEART, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.Jack),
+        new Card(Suit.DIAMOND, Rank.King),
+        new Card(Suit.CLUB, Rank.Queen),
+        new Card(Suit.CLUB, Rank.Ten),
+        new Card(Suit.DIAMOND, Rank.Ten),
+        new Card(Suit.SPADE, Rank.Queen)
+    );
+    DoublePaire actual = new DoublePaire(sourceCards);
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void DoublePaireBuilderFail() {
+    Cards sourceCards = new Cards(
+        new Card(Suit.CLUB, Rank.Ace),
+        new Card(Suit.SPADE, Rank.Jack),
+        new Card(Suit.HEART, Rank.Eight),
+        new Card(Suit.DIAMOND, Rank.Jack),
+        new Card(Suit.DIAMOND, Rank.King),
+        new Card(Suit.CLUB, Rank.Queen)
+    );
+    assertThrows(CombinationCreationError.class, () -> new DoublePaire(sourceCards));
+  }
+
+  @Test
   void buildFromCards1() {
-    List<Card> sourceCards = Arrays.asList(
+    Cards sourceCards = new Cards(
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight),
         new Card(Suit.SPADE, Rank.Ace),
@@ -44,16 +94,14 @@ class DoublePaireTest {
         new Card(Suit.DIAMOND, Rank.King),
         new Card(Suit.CLUB, Rank.Queen)
     );
-    List<DoublePaire> expected = Collections.singletonList(
-        new DoublePaire(Rank.Eight, Rank.Ace)
-    );
-    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
-    assertArrayEquals(expected.toArray(), actual.toArray());
+    DoublePaire expected = new DoublePaire(Rank.Eight, Rank.Ace);
+    DoublePaire actual = new DoublePaire(sourceCards);
+    assertEquals(expected, actual);
   }
 
   @Test
   void buildFromCards2() {
-    List<Card> sourceCards = Arrays.asList(
+    Cards sourceCards = new Cards(
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight),
         new Card(Suit.SPADE, Rank.Ace),
@@ -63,18 +111,14 @@ class DoublePaireTest {
         new Card(Suit.DIAMOND, Rank.Ace),
         new Card(Suit.CLUB, Rank.Ace)
     );
-    Set<DoublePaire> expected = new HashSet<>(Arrays.asList(
-        new DoublePaire(Rank.Eight, Rank.Ace),
-        new DoublePaire(Rank.Ace, Rank.Ace)
-    ));
-
-    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
+    DoublePaire expected = new DoublePaire(Rank.Ace, Rank.Ace);
+    DoublePaire actual = new DoublePaire(sourceCards);
     assertEquals(expected, actual);
   }
 
   @Test
   void buildFromCards3() {
-    List<Card> sourceCards = Arrays.asList(
+    Cards sourceCards = new Cards(
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.CLUB, Rank.Eight),
         new Card(Suit.SPADE, Rank.Ace),
@@ -83,9 +127,8 @@ class DoublePaireTest {
         new Card(Suit.DIAMOND, Rank.King),
         new Card(Suit.DIAMOND, Rank.Ace)
     );
-    Set<DoublePaire> expected = new HashSet<>();
-    expected.add(new DoublePaire(Rank.Eight, Rank.Ace));
-    Set<Combination> actual = DoublePaire.buildFromCards(sourceCards);
+    DoublePaire expected = new DoublePaire(Rank.Eight, Rank.Ace);
+    DoublePaire actual = new DoublePaire(sourceCards);
     assertEquals(expected, actual);
   }
 

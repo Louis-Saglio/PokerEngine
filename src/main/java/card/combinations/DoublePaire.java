@@ -1,7 +1,9 @@
 package main.java.card.combinations;
 
 import main.java.card.Card;
+import main.java.card.Cards;
 import main.java.card.Rank;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,46 +12,42 @@ import java.util.stream.Stream;
 public class DoublePaire extends Combination {
 
   private static final Integer value = Paire.getNextValue();
+  private final List<Rank> ranks;
+
 
   public DoublePaire(Rank rank1, Rank rank2) {
     super(value);
     ranks = Stream.of(rank1, rank2)
-        .sorted(Comparator.comparingInt(Rank::getValue))
         .sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue)))
         .collect(Collectors.toList());
   }
 
-  static Integer getNextValue() {
-    return value + 1;
+  public DoublePaire(Cards cards) {
+    super(value);
+    List<Rank> paires = new ArrayList<>();
+    Map<Rank, Integer> rankNbr = new HashMap<>();
+    for (Card card : cards) {
+      if (!rankNbr.containsKey(card.getRank())) {
+        rankNbr.put(card.getRank(), 0);
+      }
+      rankNbr.put(card.getRank(), rankNbr.get(card.getRank()) + 1);
+      if (rankNbr.get(card.getRank()) >= 2) {
+        paires.add(card.getRank());
+        rankNbr.remove(card.getRank());
+      }
+    }
+    List<Rank> collect = paires.stream()
+        .sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue)))
+        .limit(2)
+        .collect(Collectors.toList());
+    if (collect.size() < 2) {
+      throw new CombinationCreationError("Illegal DoublePaire ranks");
+    }
+    ranks = collect;
   }
 
-  private final List<Rank> ranks;
-
-  public static Set<Combination> buildFromCards(List<Card> cards) {
-    LinkedHashMap<Rank, Integer> nbrByRank = new LinkedHashMap<>();
-    for (Card card : cards) {
-      if (!nbrByRank.containsKey(card.getRank())) {
-        nbrByRank.put(card.getRank(), 0);
-      }
-      nbrByRank.put(card.getRank(), nbrByRank.get(card.getRank()) + 1);
-    }
-    List<Rank> paires = new ArrayList<>();
-    for (Map.Entry<Rank, Integer> key_value : nbrByRank.entrySet()) {
-      int paireNbr = key_value.getValue() / 2;
-      for (int i = 0; i < paireNbr; i++) {
-        paires.add(key_value.getKey());
-      }
-    }
-    Set<Combination> doublePaires = new HashSet<>();
-    for (int i = 0; i < paires.size(); i++) {
-      for (int j = 0; j < paires.size(); j++) {
-        DoublePaire doublePaire = new DoublePaire(paires.get(i), paires.get(j));
-        if (i != j) {
-          doublePaires.add(doublePaire);
-        }
-      }
-    }
-    return doublePaires;
+  static Integer getNextValue() {
+    return value + 1;
   }
 
   public List<Rank> getRanksForTest() {

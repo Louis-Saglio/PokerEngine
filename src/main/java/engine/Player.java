@@ -185,10 +185,13 @@ class Player {
     };
     Cards allCards = getAllCards();
     combinations.addAll(Paire.buildFromCards(allCards));
-    combinations.addAll(DoublePaire.buildFromCards(allCards));
     combinations.addAll(Hauteur.buildFromCards(allCards));
     try {
       combinations.add(new Full(allCards));
+    } catch (CombinationCreationError ignored) {
+    }
+    try {
+      combinations.add(new DoublePaire(allCards));
     } catch (CombinationCreationError ignored) {
     }
     Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
