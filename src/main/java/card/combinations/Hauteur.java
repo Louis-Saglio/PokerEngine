@@ -12,7 +12,11 @@ public class Hauteur extends Combination {
 
   Hauteur(Collection<Rank> ranks) {
     super(value);
-    this.ranks = ranks.stream().sorted(Comparator.comparingInt(Rank::getValue)).sorted(Collections.reverseOrder()).collect(Collectors.toList());
+    this.ranks = ranks
+        .stream()
+        .sorted(Comparator.comparingInt(Rank::getValue))
+        .sorted(Collections.reverseOrder())
+        .collect(Collectors.toList());
   }
 
   static Integer getNextValue() {

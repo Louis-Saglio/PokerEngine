@@ -13,7 +13,10 @@ public class DoublePaire extends Combination {
 
   public DoublePaire(Rank rank1, Rank rank2) {
     super(value);
-    ranks = Stream.of(rank1, rank2).sorted(Comparator.comparingInt(Rank::getValue)).sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue))).collect(Collectors.toList());
+    ranks = Stream.of(rank1, rank2)
+        .sorted(Comparator.comparingInt(Rank::getValue))
+        .sorted(Collections.reverseOrder(Comparator.comparingInt(Rank::getValue)))
+        .collect(Collectors.toList());
   }
 
   static Integer getNextValue() {
