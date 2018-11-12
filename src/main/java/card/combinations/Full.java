@@ -2,6 +2,7 @@ package main.java.card.combinations;
 
 import main.java.card.Cards;
 import main.java.card.Rank;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 
 import java.util.Comparator;
 
@@ -17,20 +18,17 @@ public class Full extends Combination {
     this.doubleRank = doubleRank;
   }
 
-  public static Combination buildBestFromCards(Cards cards) {
-    Rank bestTriplet = cards.getRanksByMinimumNbr(3)
+  public Full(Cards cards) throws CombinationCreationError {
+    super(value);
+    tripletRank = cards.getRanksByMinimumNbr(3)
         .stream()
         .max(Comparator.comparingInt(Rank::getValue))
-        .orElse(null);
-    if (bestTriplet == null) {
-      return null;
-    }
-    Rank bestDouble = cards.getRanksByMinimumNbr(2)
+        .orElseThrow(() -> new CombinationCreationError("Full triplet is null"));
+    doubleRank = cards.getRanksByMinimumNbr(2)
         .stream()
-        .filter(rank -> rank != bestTriplet)
+        .filter(rank -> rank != tripletRank)
         .max(Comparator.comparingInt(Rank::getValue))
-        .orElse(null);
-    return bestDouble != null ? new Full(bestTriplet, bestDouble) : null;
+        .orElseThrow(() -> new CombinationCreationError("Full double is null"));
   }
 
   @Override

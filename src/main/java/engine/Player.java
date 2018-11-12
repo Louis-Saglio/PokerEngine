@@ -3,6 +3,7 @@ package main.java.engine;
 import main.java.card.Card;
 import main.java.card.Cards;
 import main.java.card.combinations.*;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -186,7 +187,10 @@ class Player {
     combinations.addAll(Paire.buildFromCards(allCards));
     combinations.addAll(DoublePaire.buildFromCards(allCards));
     combinations.addAll(Hauteur.buildFromCards(allCards));
-    combinations.add(Full.buildBestFromCards(allCards));
+    try {
+      combinations.add(new Full(allCards));
+    } catch (CombinationCreationError ignored) {
+    }
     Combination bestCombination = combinations.stream().max(Combination::compares).orElse(null);
     System.out.println(toString() + " : " + bestCombination);
     return bestCombination;

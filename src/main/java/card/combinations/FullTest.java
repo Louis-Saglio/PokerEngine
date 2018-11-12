@@ -4,10 +4,11 @@ import main.java.card.Card;
 import main.java.card.Cards;
 import main.java.card.Rank;
 import main.java.card.Suit;
+import main.java.card.combinations.exceptions.CombinationCreationError;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FullTest {
 
@@ -23,12 +24,12 @@ class FullTest {
         new Card(Suit.CLUB, Rank.Queen)
     );
     Full expected = new Full(Rank.Ace, Rank.Eight);
-    Combination actual = Full.buildBestFromCards(sourceCards);
+    Combination actual = new Full(sourceCards);
     assertEquals(expected, actual);
   }
 
   @Test
-  void buildBestFromCardsNull() {
+  void buildBestFromCardsFail() {
     Cards sourceCards = new Cards(
         new Card(Suit.CLUB, Rank.Ace),
         new Card(Suit.SPADE, Rank.Ace),
@@ -37,8 +38,7 @@ class FullTest {
         new Card(Suit.DIAMOND, Rank.King),
         new Card(Suit.CLUB, Rank.Queen)
     );
-    Combination actual = Full.buildBestFromCards(sourceCards);
-    assertNull(actual);
+    assertThrows(CombinationCreationError.class, () -> new Full(sourceCards));
   }
 
   @Test
