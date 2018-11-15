@@ -1,11 +1,11 @@
 package main.java.card.combinations;
 
-import main.java.card.Card;
 import main.java.card.Cards;
 import main.java.card.Rank;
 import main.java.card.combinations.exceptions.CombinationCreationError;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.Objects;
 
 public class Paire extends Combination {
 
@@ -23,20 +23,6 @@ public class Paire extends Combination {
         .stream()
         .max(Comparator.comparingInt(Rank::getValue))
         .orElseThrow(() -> new CombinationCreationError("bad paire creation"));
-  }
-
-  public static Set<Combination> buildFromCards(List<Card> cards) {
-    Set<Combination> paires = new HashSet<>();
-    LinkedList<Rank> doneRanks = new LinkedList<>();
-    for (Card card : cards) {
-      for (Card card1 : cards) {
-        if (card.getRank() == card1.getRank() && card != card1 && !doneRanks.contains(card.getRank())) {
-          paires.add(new Paire(card.getRank()));
-          doneRanks.add(card.getRank());
-        }
-      }
-    }
-    return paires;
   }
 
   static Integer getNextValue() {
