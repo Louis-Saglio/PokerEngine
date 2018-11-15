@@ -8,7 +8,6 @@ import main.java.card.combinations.exceptions.CombinationCreationError;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 
 class Player {
   private Boolean isPlaying = true;
@@ -18,6 +17,7 @@ class Player {
   private List<Card> downCards;
 
   Player(Gamer gamer, Hand hand) {
+    System.out.println("Player.Player");
     this.gamer = gamer;
     this.hand = hand;
   }
@@ -31,13 +31,12 @@ class Player {
   }
 
   private Integer chooseAction() {
-    Scanner scanner = new Scanner(System.in);
     int nextInt = -1;
     while (nextInt != 1 && nextInt != 2 && nextInt != 3) {
       System.out.println(gamer);
       System.out.println("Biggest bet : " + hand.getBiggestBet() + " own bet : " + currentBet);
       System.out.println("1 : Fold\n2 : Check/Call\n3 : Raise");
-      nextInt = scanner.nextInt();
+      nextInt = hand.game.readFrom();
     }
     return nextInt;
   }
@@ -54,13 +53,13 @@ class Player {
     bet(raiseAmount);
   }
 
-  private Integer getRaiseAmount(Integer min) {
+  private Integer chooseRaiseAmount(Integer min) {
     // Check this in game ? In action system
     int raiseAmount = 0;
     while (raiseAmount < min || raiseAmount + currentBet < hand.getBiggestBet()) {  // put * 2 in a constant
       System.out.println("Choose a raise amount");
       try {
-        raiseAmount = new Scanner(System.in).nextInt();
+        raiseAmount = hand.game.readFrom();
       } catch (InputMismatchException e) {
         System.out.println("Bad input, try again");
       }
@@ -69,7 +68,7 @@ class Player {
   }
 
   private Integer getPreFlopRaiseAmount() {
-    return getRaiseAmount(hand.game.getBigBlind() * 2);
+    return chooseRaiseAmount(hand.game.getBigBlind() * 2);
   }
 
   Boolean hasEndedTurn() {
@@ -97,7 +96,7 @@ class Player {
   }
 
   private Integer getFlopRaiseAmount() {
-    return getRaiseAmount(hand.game.getBigBlind());
+    return chooseRaiseAmount(hand.game.getBigBlind());
   }
 
   void playFlop(Integer choice) {
@@ -121,7 +120,7 @@ class Player {
   }
 
   private Integer getTurnRaiseAmount() {
-    return getRaiseAmount(hand.game.getBigBlind() * 2);
+    return chooseRaiseAmount(hand.game.getBigBlind() * 2);
   }
 
   void playTurn(Integer choice) {
@@ -145,7 +144,7 @@ class Player {
   }
 
   Integer getRiverRaiseAmount() {
-    return hand.game.getBigBlind();
+    return chooseRaiseAmount(hand.game.getBigBlind());
   }
 
   void playRiver(Integer choice) {

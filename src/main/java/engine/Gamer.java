@@ -14,6 +14,10 @@ class Gamer {
     this.name = name;
   }
 
+  boolean hasMoney() {
+    return allIn > 0;
+  }
+
   void increaseMoney(Integer money) {
     this.allIn += money;
   }

@@ -2,16 +2,43 @@ package main.java.engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
-class Game {
+class Game extends Thread {
+
+  private static Integer lastId = -1;
 
   private final Integer tableStake;
   private final List<Gamer> gamers = new ArrayList<>();
+  private final Integer id;
+  private final BlockingQueue<Integer> actionsBlockingQueue = new LinkedBlockingQueue<>();
 
   Game(Integer startingChip, List<String> users) {
-    this.tableStake = startingChip;
+    incrementLastId();
+    id = lastId;
+    tableStake = startingChip;
     for (String user : users) {
-      this.addGamer(user, startingChip);
+      addGamer(user, startingChip);
+    }
+  }
+
+  synchronized private static void incrementLastId() {
+    lastId++;
+  }
+
+  void sendTo(Integer action) {
+    try {
+      actionsBlockingQueue.put(action);
+    } catch (InterruptedException ignored) {
+    }
+  }
+
+  Integer readFrom() {
+    try {
+      return actionsBlockingQueue.take();
+    } catch (InterruptedException e) {
+      throw new RuntimeException("Interrupted while reading queue of game " + id);
     }
   }
 
@@ -35,5 +62,11 @@ class Game {
     return getBigBlind() / 2;
   }
 
-  // getBuyIn
+  @Override
+  public void run() {
+    while (gamers.stream().filter(Gamer::hasMoney).count() > 1) {
+      System.out.println("New hand for game " + id);
+      new Hand(this).play();
+    }
+  }
 }
